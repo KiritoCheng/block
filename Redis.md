@@ -203,14 +203,16 @@ O(1) ？其实不一定。
 所以我给你的建议是：
 
 *   <section style="margin-bottom: 10px;max-width: 100%;line-height: 25px;font-size: 15px;color: rgb(74, 74, 74);letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">String / Hash 使用 MGET/MSET 替代 GET/SET，HMGET/HMSET 替代 HGET/HSET</section>
-*   <section style="margin-bottom: 10px;max-width: 100%;line-height: 25px;font-size: 15px;color: rgb(74, 74, 74);letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">其它数据类型使用 Pipeline，打包一次性发送多个命令到服务端执行</section><figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![图片](https://mmbiz.qpic.cn/mmbiz_jpg/gB9Yvac5K3OSCEIQBtroLfFiaMMWzJpyxjWasaOIYSbt5M6jhuURC6qRiabvsCQa5UwNZL8uk06ulNicxrXVkCNNA/640?wx_fmt=jpeg)</figure>
+*   <section style="margin-bottom: 10px;max-width: 100%;line-height: 25px;font-size: 15px;color: rgb(74, 74, 74);letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">其它数据类型使用 Pipeline，打包一次性发送多个命令到服务端执行</section><figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![image](https://user-images.githubusercontent.com/19926113/110427025-10ef1400-80e2-11eb-98d9-11d438ad5b07.png)
+</figure>
 
 **<span style="max-width: 100%;color: rgb(255, 104, 39);box-sizing: border-box !important;overflow-wrap: break-word !important;">7) 避免集中过期 key</span>**
 
 Redis 清理过期 key 是采用定时 + 懒惰的方式来做的，而且这个过程都是在主线程中执行。
 
 如果你的业务存在大量 key 集中过期的情况，那么 Redis 在清理过期 key 时，也会有阻塞主线程的风险。
-<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![图片](https://mmbiz.qpic.cn/mmbiz_jpg/gB9Yvac5K3OSCEIQBtroLfFiaMMWzJpyxZicHACvFNPU8gXS3VK2mDhfVJVnuTD5FSo5fTQdOABSrpYVrndge37A/640?wx_fmt=jpeg)</figure>
+<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![image](https://user-images.githubusercontent.com/19926113/110427066-1a787c00-80e2-11eb-83f4-4f5b2a6349df.png)
+</figure>
 
 想要避免这种情况发生，你可以在设置过期时间时，增加一个随机时间，把这些 key 的过期时间打散，从而降低集中过期对主线程的影响。
 
@@ -235,10 +237,12 @@ Redis 清理过期 key 是采用定时 + 懒惰的方式来做的，而且这个
 <span style="max-width: 100%;color: rgb(255, 104, 39);box-sizing: border-box !important;overflow-wrap: break-word !important;">**10) 使用读写分离 + 分片集群**</span>
 
 如果你的业务读请求量很大，那么可以采用部署多个从库的方式，实现读写分离，让 Redis 的从库分担读压力，进而提升性能。
-<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![图片](https://mmbiz.qpic.cn/mmbiz_jpg/gB9Yvac5K3OSCEIQBtroLfFiaMMWzJpyxjLxTKDdPHc6GLHiaKF4iaialXGwoicYRCjUSLibnqR4GTaGO3yTMMotawng/640?wx_fmt=jpeg)</figure>
+<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![image](https://user-images.githubusercontent.com/19926113/110427077-219f8a00-80e2-11eb-9380-f0a7803b6855.png)
+</figure>
 
 如果你的业务写请求量很大，单个 Redis 实例已无法支撑这么大的写流量，那么此时你需要使用分片集群，分担写压力。
-<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![图片](https://mmbiz.qpic.cn/mmbiz_jpg/gB9Yvac5K3OSCEIQBtroLfFiaMMWzJpyxw0H7LsTOpeAUpREmuyZQBAelbaMGY6oOHzvyf1jKMTyxiagkYYZqCkw/640?wx_fmt=jpeg)</figure>
+<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![image](https://user-images.githubusercontent.com/19926113/110427091-28c69800-80e2-11eb-8777-d23ad1b716bf.png)
+</figure>
 
 <span style="max-width: 100%;color: rgb(255, 104, 39);box-sizing: border-box !important;overflow-wrap: break-word !important;">**11) 不开启 AOF 或 AOF 配置为每秒刷盘**</span>
 
@@ -265,7 +269,8 @@ Linux 操作系统提供了内存大页机制，其特点在于，每次应用�
 当主进程需要修改现有数据时，会采用写时复制（Copy On Write）的方式进行操作，在这个过程中，需要重新申请内存。
 
 如果申请内存单位变为了 2MB，那么势必会增加内存申请的耗时，如果此时主进程有大量写操作，需要修改原有的数据，那么在此期间，操作延迟就会变大。
-<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![图片](https://mmbiz.qpic.cn/mmbiz_jpg/gB9Yvac5K3OSCEIQBtroLfFiaMMWzJpyxNz0n0fpaMdYViaibYjWb0Kjx1PZ7Cdu651ib4LSHm1TAJGX5UEQLEOMfA/640?wx_fmt=jpeg)</figure>
+<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![image](https://user-images.githubusercontent.com/19926113/110427112-31b76980-80e2-11eb-872b-8e99a2ae8764.png)
+</figure>
 
 所以，为了避免出现这种问题，你需要在操作系统上关闭内存大页机制。
 
@@ -345,7 +350,8 @@ Linux 操作系统提供了内存大页机制，其特点在于，每次应用�
 有时在排查 Redis 问题时，你会使用 MONITOR 查看 Redis 正在执行的命令。
 
 但如果你的 Redis OPS 比较高，那么在执行 MONITOR 会导致 Redis 输出缓冲区的内存持续增长，这会严重消耗 Redis 的内存资源，甚至会导致实例内存超过 maxmemory，引发数据淘汰，这种情况你需要格外注意。
-<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![图片](https://mmbiz.qpic.cn/mmbiz_jpg/gB9Yvac5K3OSCEIQBtroLfFiaMMWzJpyxmZvibuS8oeZibfl9TDvwmAx5mleOmpUtYcprib55awsF3Dh8vTBen7teg/640?wx_fmt=jpeg)</figure>
+<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![image](https://user-images.githubusercontent.com/19926113/110427137-3f6cef00-80e2-11eb-9702-f1a86258a411.png)
+</figure>
 
 所以你在执行 MONITOR 命令时，一定要谨慎，尽量少用。
 
@@ -450,7 +456,8 @@ Redis 5.0 以下版本存在这样一个问题：**从库内存如果超过了 m
 
 这里我画成了思维导图，方便你在实践时做参考。
 
-![图片](https://mmbiz.qpic.cn/mmbiz_png/gB9Yvac5K3OSCEIQBtroLfFiaMMWzJpyxoZ9Qog3MIZmVibbhozjUdiaAvXZzBQwecWskzfluZ0FWQoiaPDI69NGNw/640?wx_fmt=png)<span style="max-width: 100%;letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">我还</span><span style="max-width: 100%;letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">把这些实践优化，按照「业务开发」和「运维」两个维度，进一步做了划分。</span>
+![image](https://user-images.githubusercontent.com/19926113/110427175-51e72880-80e2-11eb-852d-d2651c8c016e.png)
+<span style="max-width: 100%;letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">我还</span><span style="max-width: 100%;letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">把这些实践优化，按照「业务开发」和「运维」两个维度，进一步做了划分。</span>
 
 <span style="max-width: 100%;letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">并且以「强制」、「推荐」、「参考」3 个级别做了标注，这样你在实践优化时，就会更明确哪些该做，哪些需要结合实际的业务场景进一步分析。</span>
 
@@ -462,7 +469,8 @@ Redis 5.0 以下版本存在这样一个问题：**从库内存如果超过了 m
 
 如果你是业务开发人员，你需要了解 Redis 的运行机制，例如各个命令的执行时间复杂度、数据过期策略、数据淘汰策略等，使用合理的命令，并结合业务场景进行优化。
 
-![图片](https://mmbiz.qpic.cn/mmbiz_png/gB9Yvac5K3OSCEIQBtroLfFiaMMWzJpyx4KzYB53twzEqX99WuDzqTEZcTB2ZPAib4iayicx6woZDKGYF6wtd4DHPQ/640?wx_fmt=png)<span style="max-width: 100%;letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">如果你是 DBA 运</span><span style="max-width: 100%;letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">维人员，你需要在资源规划、运维、监控、安全层面做到位，<span style="max-width: 100%;font-family: -apple-system-font, system-ui, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">做到未雨绸缪。</span></span>
+![image](https://user-images.githubusercontent.com/19926113/110427188-590e3680-80e2-11eb-8c09-d395a0c584bd.png)
+<span style="max-width: 100%;letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">如果你是 DBA 运</span><span style="max-width: 100%;letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">维人员，你需要在资源规划、运维、监控、安全层面做到位，<span style="max-width: 100%;font-family: -apple-system-font, system-ui, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">做到未雨绸缪。</span></span>
 
 <span style="max-width: 100%;letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;"></span><span style="max-width: 100%;letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">![image](https://user-images.githubusercontent.com/19926113/110426796-a6d66f00-80e1-11eb-9be5-e5ea6d873b3c.png)
 </span>
