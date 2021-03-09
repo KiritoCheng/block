@@ -464,7 +464,8 @@ Redis 5.0 以下版本存在这样一个问题：**从库内存如果超过了 m
 
 ![图片](https://mmbiz.qpic.cn/mmbiz_png/gB9Yvac5K3OSCEIQBtroLfFiaMMWzJpyx4KzYB53twzEqX99WuDzqTEZcTB2ZPAib4iayicx6woZDKGYF6wtd4DHPQ/640?wx_fmt=png)<span style="max-width: 100%;letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">如果你是 DBA 运</span><span style="max-width: 100%;letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">维人员，你需要在资源规划、运维、监控、安全层面做到位，<span style="max-width: 100%;font-family: -apple-system-font, system-ui, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">做到未雨绸缪。</span></span>
 
-<span style="max-width: 100%;letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;"></span><span style="max-width: 100%;letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">![图片](https://mmbiz.qpic.cn/mmbiz_png/gB9Yvac5K3OSCEIQBtroLfFiaMMWzJpyxvHiaHzsZjBhn2KS2Eq2xSrfYZiaCiaGhicruGN6ENHrEpxcmcmlZalGia3A/640?wx_fmt=png)</span>
+<span style="max-width: 100%;letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;"></span><span style="max-width: 100%;letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">![image](https://user-images.githubusercontent.com/19926113/110426796-a6d66f00-80e1-11eb-9be5-e5ea6d873b3c.png)
+</span>
 
 # <span style="padding-bottom: 10px;max-width: 100%;font-size: 20px;color: rgb(234, 84, 41);letter-spacing: 0.5444px;border-bottom: 2px solid rgb(234, 84, 41);box-sizing: border-box !important;overflow-wrap: break-word !important;">后记</span>
 
@@ -498,10 +499,6 @@ Redis 5.0 以下版本存在这样一个问题：**从库内存如果超过了 m
 
 <span style="max-width: 100%;font-size: 14px;color: rgb(255, 169, 0);box-sizing: border-box !important;overflow-wrap: break-word !important;">看完本文有收获？请转发分享给更多人</span>
 
-**关注「ImportNew」，提升Java技能**
 
-![图片](https://mmbiz.qpic.cn/mmbiz_png/2A8tXicCG8ylbWIGfdoDED35IRRySQZTXUkJ1eop9MHApzFibKnOo0diboXpl0rmS5mH78YJhsWQv0dhv718A6kUA/640?wx_fmt=jpeg)
-
-<span style="font-size: 14px;text-align: right;">好文章，我</span><span style="font-size: 14px;text-align: right;color: rgb(255, 41, 65);">在看</span><span style="font-size: 14px;text-align: right;">❤️</span>
 
                 </div>
