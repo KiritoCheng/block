@@ -13,7 +13,7 @@
 在文章的最后，我还会给你一个完整的最佳实践清单，不管你是业务开发人员，还是 DBA 运维人员，这个清单将会帮助你更加「优雅」地用好 Redis。
 
 **<span style="max-width: 100%;color: rgb(255, 169, 0);box-sizing: border-box !important;overflow-wrap: break-word !important;">这篇文章干货很多，希望你可以耐心读完。</span>**
-[!image](https://user-images.githubusercontent.com/19926113/110425004-a7213b00-80de-11eb-88fd-3a8b239aba85.png)
+![image](https://user-images.githubusercontent.com/19926113/110427315-865ae480-80e2-11eb-8b49-27c2bd52fb84.png)
 
 
 # <span style="padding-bottom: 10px;max-width: 100%;font-size: 20px;color: rgb(234, 84, 41);letter-spacing: 0.5444px;border-bottom: 2px solid rgb(234, 84, 41);box-sizing: border-box !important;overflow-wrap: break-word !important;">如何使用 Redis 更节省内存？</span>
