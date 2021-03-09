@@ -13,7 +13,6 @@
 在文章的最后，我还会给你一个完整的最佳实践清单，不管你是业务开发人员，还是 DBA 运维人员，这个清单将会帮助你更加「优雅」地用好 Redis。
 
 **<span style="max-width: 100%;color: rgb(255, 169, 0);box-sizing: border-box !important;overflow-wrap: break-word !important;">这篇文章干货很多，希望你可以耐心读完。</span>**
-<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![图片](https://mmbiz.qpic.cn/mmbiz_png/gB9Yvac5K3OSCEIQBtroLfFiaMMWzJpyx7AWsPEBcwibhCgk78ibcYPOJrBMEjvclD1wYHibyjNg0OsKnKFapTBbyQ/640?wx_fmt=png)</figure>
 ![image](https://user-images.githubusercontent.com/19926113/110425004-a7213b00-80de-11eb-88fd-3a8b239aba85.png)
 
 
