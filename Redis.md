@@ -58,7 +58,7 @@
 **<span style="max-width: 100%;color: rgb(255, 104, 39);box-sizing: border-box !important;overflow-wrap: break-word !important;">3) 选择合适的数据类型</span>**
 
 Redis 提供了丰富的数据类型，这些数据类型在实现上，也对内存使用做了优化。具体来说就是，一种数据类型对应多种数据结构来实现：
-<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![image](https://user-images.githubusercontent.com/19926113/110425225-f7989880-80de-11eb-81f1-2074b89a08a6.png)</figure>
+![image](https://user-images.githubusercontent.com/19926113/110425225-f7989880-80de-11eb-81f1-2074b89a08a6.png)
 
 例如，String、Set 在存储 int 数据时，会采用整数编码存储。Hash、ZSet 在元素数量比较少时（可配置），会采用压缩列表（ziplist）存储，在存储比较多的数据时，才会转换为哈希表和跳表。
 
@@ -76,8 +76,8 @@ Redis 数据存储在内存中，这也意味着其资源是有限的。你在�
 所以，你的应用写入到 &nbsp;Redis 中的数据，尽可能地都设置「过期时间」。
 
 业务应用在 Redis 中查不到数据时，再从后端数据库中加载到 Redis 中。
-<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![image](https://user-images.githubusercontent.com/19926113/110425578-89a0a100-80df-11eb-9485-fa1dd40874d5.png)
-</figure>
+![image](https://user-images.githubusercontent.com/19926113/110425578-89a0a100-80df-11eb-9485-fa1dd40874d5.png)
+
 
 采用这种方案，可以让 Redis 中只保留经常访问的「热数据」，内存利用率也会比较高。
 
@@ -125,8 +125,8 @@ Redis 数据存储在内存中，这也意味着其资源是有限的。你在�
 由于 Redis 处理请求是单线程的，当你的应用在写入一个 bigkey 时，更多时间将消耗在「内存分配」上，这时操作延迟就会增加。同样地，删除一个 bigkey 在「释放内存」时，也会发生耗时。
 
 而且，当你在读取这个 bigkey 时，也会在「网络数据传输」上花费更多时间，此时后面待执行的请求就会发生排队，Redis 性能下降。
-<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![image](https://user-images.githubusercontent.com/19926113/110425630-9e7d3480-80df-11eb-87b3-0becee2c532d.png)
-</figure>
+![image](https://user-images.githubusercontent.com/19926113/110425630-9e7d3480-80df-11eb-87b3-0becee2c532d.png)
+
 
 所以，你的业务应用尽量不要存储 bigkey，避免操作延迟发生。
 > 如果你确实有存储 bigkey 的需求，你可以把 bigkey 拆分为多个小 key 存储。
@@ -136,8 +136,8 @@ Redis 数据存储在内存中，这也意味着其资源是有限的。你在�
 如果你无法避免存储 bigkey，那么我建议你开启 Redis 的 lazy-free 机制。（4.0+版本支持）
 
 当开启这个机制后，Redis 在删除一个 bigkey 时，释放内存的耗时操作，将会放到后台线程中去执行，这样可以在最大程度上，避免对主线程的影响。
-<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![image](https://user-images.githubusercontent.com/19926113/110425652-a63cd900-80df-11eb-93be-89bd56384e7e.png)
-</figure>
+![image](https://user-images.githubusercontent.com/19926113/110425652-a63cd900-80df-11eb-93be-89bd56384e7e.png)
+
 
 **<span style="max-width: 100%;color: rgb(255, 104, 39);box-sizing: border-box !important;overflow-wrap: break-word !important;">3) 不使用复杂度过高的命令</span>**
 
@@ -203,16 +203,17 @@ O(1) ？其实不一定。
 所以我给你的建议是：
 
 *   <section style="margin-bottom: 10px;max-width: 100%;line-height: 25px;font-size: 15px;color: rgb(74, 74, 74);letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">String / Hash 使用 MGET/MSET 替代 GET/SET，HMGET/HMSET 替代 HGET/HSET</section>
-*   <section style="margin-bottom: 10px;max-width: 100%;line-height: 25px;font-size: 15px;color: rgb(74, 74, 74);letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">其它数据类型使用 Pipeline，打包一次性发送多个命令到服务端执行</section><figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![image](https://user-images.githubusercontent.com/19926113/110427025-10ef1400-80e2-11eb-98d9-11d438ad5b07.png)
-</figure>
+*   <section style="margin-bottom: 10px;max-width: 100%;line-height: 25px;font-size: 15px;color: rgb(74, 74, 74);letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">其它数据类型使用 Pipeline，打包一次性发送多个命令到服务端执行</section>
+*   ![image](https://user-images.githubusercontent.com/19926113/110427025-10ef1400-80e2-11eb-98d9-11d438ad5b07.png)
+
 
 **<span style="max-width: 100%;color: rgb(255, 104, 39);box-sizing: border-box !important;overflow-wrap: break-word !important;">7) 避免集中过期 key</span>**
 
 Redis 清理过期 key 是采用定时 + 懒惰的方式来做的，而且这个过程都是在主线程中执行。
 
 如果你的业务存在大量 key 集中过期的情况，那么 Redis 在清理过期 key 时，也会有阻塞主线程的风险。
-<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![image](https://user-images.githubusercontent.com/19926113/110427066-1a787c00-80e2-11eb-83f4-4f5b2a6349df.png)
-</figure>
+![image](https://user-images.githubusercontent.com/19926113/110427066-1a787c00-80e2-11eb-83f4-4f5b2a6349df.png)
+
 
 想要避免这种情况发生，你可以在设置过期时间时，增加一个随机时间，把这些 key 的过期时间打散，从而降低集中过期对主线程的影响。
 
@@ -237,12 +238,11 @@ Redis 清理过期 key 是采用定时 + 懒惰的方式来做的，而且这个
 <span style="max-width: 100%;color: rgb(255, 104, 39);box-sizing: border-box !important;overflow-wrap: break-word !important;">**10) 使用读写分离 + 分片集群**</span>
 
 如果你的业务读请求量很大，那么可以采用部署多个从库的方式，实现读写分离，让 Redis 的从库分担读压力，进而提升性能。
-<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![image](https://user-images.githubusercontent.com/19926113/110427077-219f8a00-80e2-11eb-9380-f0a7803b6855.png)
-</figure>
+![image](https://user-images.githubusercontent.com/19926113/110427077-219f8a00-80e2-11eb-9380-f0a7803b6855.png)
+
 
 如果你的业务写请求量很大，单个 Redis 实例已无法支撑这么大的写流量，那么此时你需要使用分片集群，分担写压力。
-<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![image](https://user-images.githubusercontent.com/19926113/110427091-28c69800-80e2-11eb-8777-d23ad1b716bf.png)
-</figure>
+![image](https://user-images.githubusercontent.com/19926113/110427091-28c69800-80e2-11eb-8777-d23ad1b716bf.png)
 
 <span style="max-width: 100%;color: rgb(255, 104, 39);box-sizing: border-box !important;overflow-wrap: break-word !important;">**11) 不开启 AOF 或 AOF 配置为每秒刷盘**</span>
 
@@ -269,8 +269,8 @@ Linux 操作系统提供了内存大页机制，其特点在于，每次应用�
 当主进程需要修改现有数据时，会采用写时复制（Copy On Write）的方式进行操作，在这个过程中，需要重新申请内存。
 
 如果申请内存单位变为了 2MB，那么势必会增加内存申请的耗时，如果此时主进程有大量写操作，需要修改原有的数据，那么在此期间，操作延迟就会变大。
-<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![image](https://user-images.githubusercontent.com/19926113/110427112-31b76980-80e2-11eb-872b-8e99a2ae8764.png)
-</figure>
+![image](https://user-images.githubusercontent.com/19926113/110427112-31b76980-80e2-11eb-872b-8e99a2ae8764.png)
+
 
 所以，为了避免出现这种问题，你需要在操作系统上关闭内存大页机制。
 
@@ -350,8 +350,8 @@ Linux 操作系统提供了内存大页机制，其特点在于，每次应用�
 有时在排查 Redis 问题时，你会使用 MONITOR 查看 Redis 正在执行的命令。
 
 但如果你的 Redis OPS 比较高，那么在执行 MONITOR 会导致 Redis 输出缓冲区的内存持续增长，这会严重消耗 Redis 的内存资源，甚至会导致实例内存超过 maxmemory，引发数据淘汰，这种情况你需要格外注意。
-<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![image](https://user-images.githubusercontent.com/19926113/110427137-3f6cef00-80e2-11eb-9702-f1a86258a411.png)
-</figure>
+![image](https://user-images.githubusercontent.com/19926113/110427137-3f6cef00-80e2-11eb-9702-f1a86258a411.png)
+
 
 所以你在执行 MONITOR 命令时，一定要谨慎，尽量少用。
 
