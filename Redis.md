@@ -1,24 +1,4 @@
-<div class="rich_media_content " id="js_content" style="visibility: visible;">
 
-<span style="font-size: 14px;letter-spacing: 0.5440000295639038px;text-align: center;max-width: 100%;color: rgb(255, 41, 65);line-height: 22.4px;">（给</span><span style="font-size: 14px;letter-spacing: 0.5440000295639038px;text-align: center;max-width: 100%;line-height: 22.4px;color: rgb(0, 128, 255);">ImportNew</span><span style="font-size: 14px;letter-spacing: 0.5440000295639038px;text-align: center;max-width: 100%;color: rgb(255, 41, 65);line-height: 22.4px;">加星标，提高Java技能）</span>
-> <span style="max-width: 100%;font-size: 14px;box-sizing: border-box !important;overflow-wrap: break-word !important;">转自：水滴与银弹</span>
-
-<span style="color: rgb(171, 25, 66);">**<span style="font-size: 15px;text-align: left;"></span>**</span>
-
-这篇文章我想和你聊一聊 Redis 的最佳实践。
-
-你的项目或许已经使用 Redis 很长时间了，但在使用过程中，你可能还会或多或少地遇到以下问题：
-
-*   <section style="margin-bottom: 10px;max-width: 100%;line-height: 25px;font-size: 15px;color: rgb(74, 74, 74);letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">我的 Redis 内存为什么增长这么快？</section>
-*   <section style="margin-bottom: 10px;max-width: 100%;line-height: 25px;font-size: 15px;color: rgb(74, 74, 74);letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">为什么我的 Redis 操作延迟变大了？</section>
-*   <section style="margin-bottom: 10px;max-width: 100%;line-height: 25px;font-size: 15px;color: rgb(74, 74, 74);letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">如何降低 Redis 故障发生的频率？</section>
-*   <section style="margin-bottom: 10px;max-width: 100%;line-height: 25px;font-size: 15px;color: rgb(74, 74, 74);letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">日常运维 Redis 需要注意什么？</section>
-*   <section style="margin-bottom: 10px;max-width: 100%;line-height: 25px;font-size: 15px;color: rgb(74, 74, 74);letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">部署 Redis 时，如何做好资源规划？</section>
-*   <section style="margin-bottom: 10px;max-width: 100%;line-height: 25px;font-size: 15px;color: rgb(74, 74, 74);letter-spacing: 0.5444px;box-sizing: border-box !important;overflow-wrap: break-word !important;">Redis 监控重点要关注哪些指标？</section>
-
-尤其是当你的项目越来越依赖 Redis 时，这些问题就变得尤为重要。
-
-此时，你迫切需要一份**「最佳实践指南」**。
 
 这篇文章，我将从以下七个维度，带你「全面」分析 Redis 的最佳实践优化：
 
