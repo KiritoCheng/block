@@ -13,7 +13,7 @@
 在文章的最后，我还会给你一个完整的最佳实践清单，不管你是业务开发人员，还是 DBA 运维人员，这个清单将会帮助你更加「优雅」地用好 Redis。
 
 **<span style="max-width: 100%;color: rgb(255, 169, 0);box-sizing: border-box !important;overflow-wrap: break-word !important;">这篇文章干货很多，希望你可以耐心读完。</span>**
-![image](https://user-images.githubusercontent.com/19926113/110425004-a7213b00-80de-11eb-88fd-3a8b239aba85.png)
+<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">[image](https://user-images.githubusercontent.com/19926113/110425004-a7213b00-80de-11eb-88fd-3a8b239aba85.png)</figure>
 
 
 # <span style="padding-bottom: 10px;max-width: 100%;font-size: 20px;color: rgb(234, 84, 41);letter-spacing: 0.5444px;border-bottom: 2px solid rgb(234, 84, 41);box-sizing: border-box !important;overflow-wrap: break-word !important;">如何使用 Redis 更节省内存？</span>
@@ -58,7 +58,7 @@
 **<span style="max-width: 100%;color: rgb(255, 104, 39);box-sizing: border-box !important;overflow-wrap: break-word !important;">3) 选择合适的数据类型</span>**
 
 Redis 提供了丰富的数据类型，这些数据类型在实现上，也对内存使用做了优化。具体来说就是，一种数据类型对应多种数据结构来实现：
-<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![图片](https://mmbiz.qpic.cn/mmbiz_png/gB9Yvac5K3OSCEIQBtroLfFiaMMWzJpyxDPJAlJj31DWQxBtUc4qCyqPt5SEWNpY1JpDyibcJxo1rhVBmqMjIw9g/640?wx_fmt=png)</figure>
+<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![image](https://user-images.githubusercontent.com/19926113/110425225-f7989880-80de-11eb-81f1-2074b89a08a6.png)</figure>
 
 例如，String、Set 在存储 int 数据时，会采用整数编码存储。Hash、ZSet 在元素数量比较少时（可配置），会采用压缩列表（ziplist）存储，在存储比较多的数据时，才会转换为哈希表和跳表。
 
@@ -76,7 +76,8 @@ Redis 数据存储在内存中，这也意味着其资源是有限的。你在�
 所以，你的应用写入到 &nbsp;Redis 中的数据，尽可能地都设置「过期时间」。
 
 业务应用在 Redis 中查不到数据时，再从后端数据库中加载到 Redis 中。
-<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![图片](https://mmbiz.qpic.cn/mmbiz_jpg/gB9Yvac5K3OSCEIQBtroLfFiaMMWzJpyx4t8UZ34WMpePuN9IFbicJlvRyuZFrXTAZSemoQV44KSmZLvt8AYqE7A/640?wx_fmt=jpeg)</figure>
+<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![image](https://user-images.githubusercontent.com/19926113/110425578-89a0a100-80df-11eb-9485-fa1dd40874d5.png)
+</figure>
 
 采用这种方案，可以让 Redis 中只保留经常访问的「热数据」，内存利用率也会比较高。
 
@@ -124,7 +125,8 @@ Redis 数据存储在内存中，这也意味着其资源是有限的。你在�
 由于 Redis 处理请求是单线程的，当你的应用在写入一个 bigkey 时，更多时间将消耗在「内存分配」上，这时操作延迟就会增加。同样地，删除一个 bigkey 在「释放内存」时，也会发生耗时。
 
 而且，当你在读取这个 bigkey 时，也会在「网络数据传输」上花费更多时间，此时后面待执行的请求就会发生排队，Redis 性能下降。
-<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![图片](https://mmbiz.qpic.cn/mmbiz_jpg/gB9Yvac5K3OSCEIQBtroLfFiaMMWzJpyx7J5WTib2UYFNWSPaP7UMOulkISC5KQ0syDoibcouL0iaiay0vzLPbNQSJg/640?wx_fmt=jpeg)</figure>
+<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![image](https://user-images.githubusercontent.com/19926113/110425630-9e7d3480-80df-11eb-87b3-0becee2c532d.png)
+</figure>
 
 所以，你的业务应用尽量不要存储 bigkey，避免操作延迟发生。
 > 如果你确实有存储 bigkey 的需求，你可以把 bigkey 拆分为多个小 key 存储。
@@ -134,7 +136,8 @@ Redis 数据存储在内存中，这也意味着其资源是有限的。你在�
 如果你无法避免存储 bigkey，那么我建议你开启 Redis 的 lazy-free 机制。（4.0+版本支持）
 
 当开启这个机制后，Redis 在删除一个 bigkey 时，释放内存的耗时操作，将会放到后台线程中去执行，这样可以在最大程度上，避免对主线程的影响。
-<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![图片](https://mmbiz.qpic.cn/mmbiz_jpg/gB9Yvac5K3OSCEIQBtroLfFiaMMWzJpyxhrumCSKsfLUgVaAWxicFawP6ZbMrCyGSAL6Tas29Wue76gNLSHEIesA/640?wx_fmt=jpeg)</figure>
+<figure data-tool="mdnice编辑器" style="margin-top: 10px;margin-bottom: 10px;max-width: 100%;font-family: -apple-system-font, BlinkMacSystemFont, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, Arial, sans-serif;font-size: 16px;letter-spacing: 0.5444px;text-align: left;white-space: normal;background-color: rgb(255, 255, 255);display: flex;flex-direction: column;justify-content: center;align-items: center;box-sizing: border-box !important;overflow-wrap: break-word !important;">![image](https://user-images.githubusercontent.com/19926113/110425652-a63cd900-80df-11eb-93be-89bd56384e7e.png)
+</figure>
 
 **<span style="max-width: 100%;color: rgb(255, 104, 39);box-sizing: border-box !important;overflow-wrap: break-word !important;">3) 不使用复杂度过高的命令</span>**
 
