@@ -1,8 +1,8 @@
 <div class="rich_media_content " id="js_content" style="visibility: visible;"><section data-mpa-powered-by="yiban.io">> 这一篇主要和大家一起学习回顾关于&nbsp;**TCP/IP**&nbsp;的常见攻击，至少有一个基本的认识。
 
 ## <span style="font-size: inherit;color: inherit;line-height: inherit;">前言</span>
-<figure style="font-size: inherit;color: inherit;line-height: inherit;">![图片](https://mmbiz.qpic.cn/mmbiz_png/WUrZckMPh54ibk9Dxib1ZNwvvdnEWbHsIw6BQa4k59ZoKHN1qVzfCj37eMgk30wJoI9gYHicALeBJEr2Xvf3xsgEA/640?wx_fmt=png "在这里插入图片描述")<figcaption style="line-height: inherit;margin-top: 10px;text-align: center;color: rgb(153, 153, 153);font-size: 0.7em;">前言
-</figcaption></figure>
+![image](https://user-images.githubusercontent.com/19926113/110899946-ee0c6c00-833c-11eb-9feb-d4e8e0a1f0cd.png)
+
 
 ## <span style="font-size: inherit;color: inherit;line-height: inherit;">1 IP欺骗</span>
 > IP是什么？
@@ -11,7 +11,8 @@
 > 通过IP地址我们能知道什么？
 
 通过 IP 地址，我们就可以判断访问对象服务器的位置，从而将消息发送到服务器。一般发送者发出的消息首先经过子网的集线器，转发到最近的路由器，然后根据路由位置访问下一个路由器的位置，直到终点。
-> IP头部格式<figure style="font-size: inherit;color: inherit;line-height: inherit;">![图片](https://mmbiz.qpic.cn/mmbiz_png/WUrZckMPh54ibk9Dxib1ZNwvvdnEWbHsIwoRsXoRq5q3nxJO0epRTGbFWfzjurvqJfECS0QugIHs6AYFkn3DJkbw/640?wx_fmt=png "IP头部格式")<figcaption style="line-height: inherit;margin-top: 10px;text-align: center;color: rgb(153, 153, 153);font-size: 0.7em;">IP头部格式</figcaption></figure>> IP欺骗技术
+> IP头部格式![image](https://user-images.githubusercontent.com/19926113/110899972-f6fd3d80-833c-11eb-872c-15c7fb126d72.png)
+> IP欺骗技术
 
 骗呗，拐骗，诱骗！
 
@@ -30,7 +31,8 @@ IP 欺骗技术就是**伪造**某台主机的 IP 地址的技术。通过 IP �
 > TCP SYN Flood 攻击原理
 
 **TCP&nbsp;SYN Flood** 攻击利用的是 **TCP** 的三次握手（**SYN -&gt; SYN/ACK -&gt; ACK**），假设连接发起方是A，连接接受方是 B，即 B 在某个端口（**Port**）上监听 A 发出的连接请求，过程如下图所示，左边是 A，右边是 B。
-<figure style="font-size: inherit;color: inherit;line-height: inherit;">![图片](https://mmbiz.qpic.cn/mmbiz_png/WUrZckMPh54ibk9Dxib1ZNwvvdnEWbHsIwgqYz9sHCvK9I6K6dfyibJfRdauAMpvHoDl0vM3RsvsXNOtnnXABrFuA/640?wx_fmt=png "在这里插入图片描述")</figure>
+![image](https://user-images.githubusercontent.com/19926113/110899993-ffee0f00-833c-11eb-8e60-38ee27282756.png)
+
 
 A 首先发送 **SYN**（Synchronization）消息给 B，要求 B 做好接收数据的准备；B 收到后反馈 **SYN-ACK**（Synchronization-Acknowledgement） 消息给 A，这个消息的目的有两个：
 
@@ -47,7 +49,8 @@ A 首先发送 **SYN**（Synchronization）消息给 B，要求 B 做好接收�
 但实际情况是，网络可能不稳定会丢包，使握手消息不能抵达对方，也可能是对方故意不按规矩来，故意延迟或不发送握手确认消息。
 
 假设&nbsp;B 通过某 **TCP** 端口提供服务，B 在收到 A 的 **SYN** 消息时，积极地反馈了 **SYN-ACK** 消息，使连接进入**半开状态**，因为 B 不确定自己发给 A 的 **SYN-ACK** 消息或 A 反馈的 ACK 消息是否会丢在半路，所以会给每个待完成的半开连接都设一个&nbsp;**Timer**，如果超过时间还没有收到 A 的 **ACK** 消息，则重新发送一次 **SYN-ACK** 消息给 A，直到重试超过一定次数时才会放弃。
-<figure style="font-size: inherit;color: inherit;line-height: inherit;">![图片](https://mmbiz.qpic.cn/mmbiz_png/WUrZckMPh54ibk9Dxib1ZNwvvdnEWbHsIwX7L1SmkpPysDtuHJFGwTfS2zHzs3iaTnf8oI8AmW41j5YyaXPs7VzcQ/640?wx_fmt=png)</figure>
+![image](https://user-images.githubusercontent.com/19926113/110900007-05e3f000-833d-11eb-9804-b2c6d88918df.png)
+
 
 B 为帮助 A 能顺利连接，需要**分配内核资源**维护半开连接，那么当 B 面临海量的连接 A 时，如上图所示，**SYN Flood** 攻击就形成了。攻击方 A 可以控制肉鸡向 B 发送大量 SYN 消息但不响应 ACK 消息，或者干脆伪造 SYN 消息中的 **Source IP**，使 B 反馈的 **SYN-ACK** 消息石沉大海，导致 B 被大量注定不能完成的半开连接占据，直到资源耗尽，停止响应正常的连接请求。
 
@@ -69,7 +72,8 @@ B 为帮助 A 能顺利连接，需要**分配内核资源**维护半开连接�
 当服务器接收到每个新的 **UDP** 数据包时，它将通过步骤来处理请求，并利用该过程中的服务器资源。发送 **UDP** 报文时，每个报文将包含源设备的 **IP** 地址。在这种类型的 **DDoS** 攻击期间，攻击者通常不会使用自己的真实 **IP** 地址，而是会欺骗 **UDP** 数据包的源 **IP** 地址，从而阻止攻击者的真实位置被暴露并潜在地饱和来自目标的响应数据包服务器。
 
 由于目标服务器利用资源检查并响应每个接收到的 **UDP** 数据包的结果，当接收到大量 **UDP** 数据包时，目标的资源可能会迅速耗尽，导致对正常流量的拒绝服务。
-<figure style="font-size: inherit;color: inherit;line-height: inherit;">![图片](https://mmbiz.qpic.cn/mmbiz_png/WUrZckMPh54ibk9Dxib1ZNwvvdnEWbHsIwyIosXYguAxw5ibDk0icbFqRfJpVPvjMEZ9GTNcTqicTVtEcEicUPS5SKPg/640?wx_fmt=png)</figure>> 如何缓解&nbsp;**UDP&nbsp;**洪水攻击？
+![image](https://user-images.githubusercontent.com/19926113/110900021-0ed4c180-833d-11eb-91ec-cc33c797f9f2.png)
+> 如何缓解&nbsp;**UDP&nbsp;**洪水攻击？
 
 大多数操作系统部分限制了 **ICMP** 报文的响应速率，以中断需要 ICMP 响应的 **DDoS** 攻击。这种缓解的一个缺点是在攻击过程中，合法的数据包也可能被过滤。如果 **UDP Flood** 的容量足够高以使目标服务器的防火墙的状态表饱和，则在服务器级别发生的任何缓解都将不足以应对目标设备上游的瓶颈。
 
@@ -112,11 +116,12 @@ B 为帮助 A 能顺利连接，需要**分配内核资源**维护半开连接�
 <precode language="" precodenum="1"></precode>
 
 该命令会尝试与上面的服务建立连接，在其中一个窗口输入一些字符，就会通过 TCP 连接发送给另一个窗口并打印出来。
-<figure style="font-size: inherit;color: inherit;line-height: inherit;">![图片](https://mmbiz.qpic.cn/mmbiz_gif/WUrZckMPh54ibk9Dxib1ZNwvvdnEWbHsIwofraoxJ9CpicTG5yBHVN3IcvW1TuP5Mte5yr8Ng3msVaBNnic1e9YkJA/640?wx_fmt=gif "img")<figcaption style="line-height: inherit;margin-top: 10px;text-align: center;color: rgb(153, 153, 153);font-size: 0.7em;">
-</figcaption></figure>> 嗅探流量
+![image](https://user-images.githubusercontent.com/19926113/110900036-17c59300-833d-11eb-970e-02de1c10a02a.png)
+> 嗅探流量
 
 编写一个攻击程序，使用 Python 网络库 `scapy` 来读取两个终端窗口之间交换的数据，并将其打印到终端上。代码的核心是调用 `scapy` 的嗅探方法：
-<figure style="font-size: inherit;color: inherit;line-height: inherit;">![图片](https://mmbiz.qpic.cn/mmbiz_png/WUrZckMPh54ibk9Dxib1ZNwvvdnEWbHsIw9bofnrQ1sSSV1kBDy0Fxibofx9cMdGvhmMaWptdGuSj0zibQREjrvFxw/640?wx_fmt=png)</figure>
+![image](https://user-images.githubusercontent.com/19926113/110900053-1e540a80-833d-11eb-92e8-9f0431baed8f.png)
+
 
 这段代码告诉 `scapy` 在 `lo0` 网络接口上嗅探数据包，并记录所有 TCP 连接的详细信息。
 
@@ -155,7 +160,8 @@ B 为帮助 A 能顺利连接，需要**分配内核资源**维护半开连接�
 > 什么是中间人
 
 中间人攻击英文名叫 Man-in-the-MiddleAttack，简称「MITM攻击」。指攻击者与通讯的两端分别创建独立的联系，并交换其所收到的数据，使通讯的两端认为他们正在通过一个私密的连接与对方直接对话，但事实上整个会话都被攻击者完全控制。我们画一张图：
-<figure style="font-size: inherit;color: inherit;line-height: inherit;">![图片](https://mmbiz.qpic.cn/mmbiz_png/WUrZckMPh54ibk9Dxib1ZNwvvdnEWbHsIwiaZADBplJPnIicicsEHmbdx9TQe3HT7LTxW4FibfN7aWiaHUr5bv1IHAx9Q/640?wx_fmt=png "中间人")<figcaption style="line-height: inherit;margin-top: 10px;text-align: center;color: rgb(153, 153, 153);font-size: 0.7em;">中间人</figcaption></figure>
+![image](https://user-images.githubusercontent.com/19926113/110900070-24e28200-833d-11eb-98bb-8e73e5ace30d.png)
+
 
 从这张图可以看到，中间人其实就是攻击者。通过这种原理，有很多实现的用途，比如说，你在手机上浏览不健康网站的时候，手机就会提示你，此网站可能含有病毒，是否继续访问还是做其他的操作等等。
 > 中间人攻击的原理
@@ -187,7 +193,8 @@ B 为帮助 A 能顺利连接，需要**分配内核资源**维护半开连接�
 > 数字证书和签名
 
 同样的，举个例子。Sum 和 Mike 两个人签合同。Sum 首先用 **SHA** 算法计算合同的摘要，然后用自己私钥将摘要加密，得到数字签名。Sum 将合同原文、签名，以及公钥三者都交给 Mike。
-<figure style="font-size: inherit;color: inherit;line-height: inherit;">![图片](https://mmbiz.qpic.cn/mmbiz_png/WUrZckMPh54ibk9Dxib1ZNwvvdnEWbHsIw37aPMmCib42lddMz5nwnpCiadEFZOkukX9smhJANMLc4UFPHfbu5xOSw/640?wx_fmt=png)</figure>
+![image](https://user-images.githubusercontent.com/19926113/110900087-2ad86300-833d-11eb-8165-491f00b091e7.png)
+
 
 如果 Sum 想要证明合同是 Mike 的，那么就要使用 Mike 的公钥，将这个签名解密得到摘要 x，然后 Mike 计算原文的 sha 摘要 Y，随后对比 x 和 y，如果两者相等，就认为数据没有被篡改。
 
@@ -202,7 +209,8 @@ B 为帮助 A 能顺利连接，需要**分配内核资源**维护半开连接�
 > 对称加密
 
 对称加密，顾名思义，加密方与解密方使用同一钥匙(秘钥)。具体一些就是，发送方通过使用相应的加密算法和秘钥，对将要发送的信息进行加密；对于接收方而言，使用解密算法和相同的秘钥解锁信息，从而有能力阅读信息。
-<figure style="font-size: inherit;color: inherit;line-height: inherit;">![图片](https://mmbiz.qpic.cn/mmbiz_png/WUrZckMPh54ibk9Dxib1ZNwvvdnEWbHsIwgmbibusKuJ7XyqoHPhbniaz2G38fn15Y8sXdkfPhr0npLMb4Feibt51LA/640?wx_fmt=png)</figure>> 常见的对称加密算法
+![image](https://user-images.githubusercontent.com/19926113/110900109-3035ad80-833d-11eb-998c-11e4f4c20a8d.png)
+> 常见的对称加密算法
 
 *   <span style="font-size: inherit;color: inherit;line-height: inherit;">DES</span>> DES 使用的密钥表面上是 64 位的，然而只有其中的 56 位被实际用于算法，其余 8 位可以被用于奇偶校验，并在算法中被丢弃。因此，**DES** 的有效密钥长度为 56 位，通常称 **DES** 的密钥长度为 56 位。假设秘钥为 56 位，采用暴力破Jie的方式，其秘钥个数为 2 的 56 次方，那么每纳秒执行一次解密所需要的时间差不多1年的样子。当然，没人这么干。**DES** 现在已经不是一种安全的加密方法，主要因为它使用的 56 位密钥过短。<figure style="font-size: inherit;color: inherit;line-height: inherit;">![图片](https://mmbiz.qpic.cn/mmbiz_jpg/WUrZckMPh54ibk9Dxib1ZNwvvdnEWbHsIwGGXlCdAg38r5aibpsv3cCNqGHiava5PQf0nWZkVPFTyctWicbfIOJqrlg/640?wx_fmt=jpeg)</figure>
 
@@ -213,10 +221,12 @@ B 为帮助 A 能顺利连接，需要**分配内核资源**维护半开连接�
 *   <span style="font-size: inherit;color: inherit;line-height: inherit;">SM1 和 SM4</span>> 之前几种都是国外的，我们国内自行研究了国密 **SM1 **和 **SM4**。其中 S 都属于国家标准，算法公开。优点就是国家的大力支持和认可。
 
 总结下：
-<figure style="font-size: inherit;color: inherit;line-height: inherit;">![图片](https://mmbiz.qpic.cn/mmbiz_png/WUrZckMPh54ibk9Dxib1ZNwvvdnEWbHsIwSKJUqrAIKX3GZyvDR9CbeIJKSRrqLBczRAZwfZugAVWzs6ZE9bwMuw/640?wx_fmt=png)</figure>> 非对称算法
+![image](https://user-images.githubusercontent.com/19926113/110900153-417eba00-833d-11eb-852b-b2d9d13081f3.png)
+> 非对称算法
 
 在对称加密中，发送方与接收方使用相同的秘钥。那么在非对称加密中则是发送方与接收方使用的不同的秘钥。其主要解决的问题是防止在秘钥协商的过程中发生泄漏。比如在对称加密中，小蓝将需要发送的消息加密，然后告诉你密码是 123balala，ok，对于其他人而言，很容易就能劫持到密码是 123balala。那么在非对称的情况下，小蓝告诉所有人密码是 123balala，对于中间人而言，拿到也没用，因为没有私钥。所以，非对称密钥其实主要解决了密钥分发的难题。如下图：
-<figure style="font-size: inherit;color: inherit;line-height: inherit;">![图片](https://mmbiz.qpic.cn/mmbiz_png/WUrZckMPh54ibk9Dxib1ZNwvvdnEWbHsIwqrXFic9Gggt8s2ibebQljzB1oXKR2VPfZ73Jrk6wtPnPbPlvmYc8b3GA/640?wx_fmt=png "非对称算法")<figcaption style="line-height: inherit;margin-top: 10px;text-align: center;color: rgb(153, 153, 153);font-size: 0.7em;">非对称算法</figcaption></figure>> 其实我们经常都在使用非对称加密，比如使用多台服务器搭建大数据平台 hadoop，为了方便多台机器设置免密登录，是不是就会涉及到秘钥分发。再比如搭建 docker 集群也会使用相关非对称加密算法。<section style="margin-bottom: 15px;">**常见的非对称加密**</section>
+![image](https://user-images.githubusercontent.com/19926113/110900170-4a6f8b80-833d-11eb-8a3d-23b3ab83fc76.png)
+> 其实我们经常都在使用非对称加密，比如使用多台服务器搭建大数据平台 hadoop，为了方便多台机器设置免密登录，是不是就会涉及到秘钥分发。再比如搭建 docker 集群也会使用相关非对称加密算法。<section style="margin-bottom: 15px;">**常见的非对称加密**</section>
 
 *   <span style="font-size: inherit;color: inherit;line-height: inherit;">RSA（RSA 加密算法，RSA Algorithm）</span>> 优势是性能比较快，如果想要较高的加密难度，需要很长的秘钥。
 
@@ -225,7 +235,8 @@ B 为帮助 A 能顺利连接，需要**分配内核资源**维护半开连接�
 *   <span style="font-size: inherit;color: inherit;line-height: inherit;">SM2</span>> 同样基于椭圆曲线问题设计。最大优势就是国家认可和大力支持。
 
 三种对比：
-<figure style="font-size: inherit;color: inherit;line-height: inherit;">![图片](https://mmbiz.qpic.cn/mmbiz_png/WUrZckMPh54ibk9Dxib1ZNwvvdnEWbHsIwhdEO0kXeZwDnJhK2jltZw8J3kVeJcslpdfqf0g7deSBvvAwuObpx7g/640?wx_fmt=png)</figure>> 散列算法
+![image](https://user-images.githubusercontent.com/19926113/110900182-50fe0300-833d-11eb-8b57-97d2997c66ff.png)
+> 散列算法
 
 这个大家应该更加熟悉了，比如我们平常使用的 MD5 校验，在很多时候，我并不是拿来进行加密，而是用来获得唯一性 ID。在做系统的过程中，存储用户的各种密码信息，通常都会通过散列算法，最终存储其散列值。
 > 常见的散列
@@ -237,7 +248,8 @@ B 为帮助 A 能顺利连接，需要**分配内核资源**维护半开连接�
 *   <span style="font-size: inherit;color: inherit;line-height: inherit;">SM3</span>> 国密算法&nbsp;**SM3**。加密强度和 SHA-256 差不多。主要是受到国家的支持。
 
 总结：
-<figure style="font-size: inherit;color: inherit;line-height: inherit;">![图片](https://mmbiz.qpic.cn/mmbiz_png/WUrZckMPh54ibk9Dxib1ZNwvvdnEWbHsIwl4HLPPrRXALx8EREuoMy7xjJiauy5y2DRdI8VV20ffiboIU7nHKCZGQQ/640?wx_fmt=png)</figure>
+![image](https://user-images.githubusercontent.com/19926113/110900193-578c7a80-833d-11eb-9407-567d1f2f1b4a.png)
+
 
 至此，总结下，大部分情况下使用对称加密，具有比较不错的安全性。如果需要分布式进行秘钥分发，考虑非对称。如果不需要可逆计算则散列算法。
 > 问题还有，此时如果 Sum 否认给过 Mike 的公钥和合同，不久 gg 了。
@@ -245,14 +257,16 @@ B 为帮助 A 能顺利连接，需要**分配内核资源**维护半开连接�
 所以需要 Sum 说过的话做过的事儿有足够的信誉，这就引入了第三方机构和证书机制。
 
 证书之所以会有信用，是因为证书的签发方拥有信用。所以如果 Sum 想让 Mike 承认自己的公钥，Sum 不会直接将公钥给 Mike ，而是由第三方机构提供含有公钥的证书。如果 Mike 也信任这个机构，法律都认可，那 ok，信任关系成立。
-<figure style="font-size: inherit;color: inherit;line-height: inherit;">![图片](https://mmbiz.qpic.cn/mmbiz_png/WUrZckMPh54ibk9Dxib1ZNwvvdnEWbHsIwmvNGeFcfzeGAlLMyN6cqBCXpRYGrZibFEWFv6ibqYbSIZgIgmuhU08Zg/640?wx_fmt=png)</figure>
+![image](https://user-images.githubusercontent.com/19926113/110900201-5bb89800-833d-11eb-9aee-2470032b6346.png)
+
 
 如上图所示，Sum 将自己的申请提交给机构，产生证书的原文。机构用自己的私钥签名 Sum 的申请原文（先根据原文内容计算摘要，再用私钥加密），得到带有签名信息的证书。Mike 拿到带签名信息的证书，通过第三方机构的公钥进行解密，获得 Sum 证书的摘要、证书的原文。有了 Sum 证书的摘要和原文，Mike 就可以进行验签。验签通过，Mike 就可以确认 Sum 的证书的确是第三方机构签发的。
 
 用上面这样一个机制，合同的双方都无法否认合同。这个解决方案的核心在于需要第三方信用服务机构提供信用背书。这里产生了一个最基础的信任链，如果第三方机构的信任崩溃，比如被黑客攻破，那整条信任链条也就断裂了。
 
 为了让这个信任条更加稳固，就需要环环相扣，打造更长的信任链，避免单点信任风险。
-<figure style="font-size: inherit;color: inherit;line-height: inherit;">![图片](https://mmbiz.qpic.cn/mmbiz_png/WUrZckMPh54ibk9Dxib1ZNwvvdnEWbHsIwl9XhNVOOLQhKzkG8hMQklGjqOFlC7P87vmbnzEmtpRUgCWcPJaBiaEw/640?wx_fmt=png)</figure>
+![image](https://user-images.githubusercontent.com/19926113/110900215-6115e280-833d-11eb-90ba-d4de4ee5dc93.png)
+
 
 上图中，由信誉最好的根证书机构提供根证书，然后根证书机构去签发二级机构的证书；二级机构去签发三级机构的证书；最后由三级机构去签发 Sum 证书。
 
@@ -266,7 +280,8 @@ B 为帮助 A 能顺利连接，需要**分配内核资源**维护半开连接�
 > 中间人攻击如何避免?
 
 既然知道了中间人攻击的原理也知道了他的危险，现在我们看看如何避免。相信我们都遇到过下面这种状况：
-<figure style="font-size: inherit;color: inherit;line-height: inherit;">![图片](https://mmbiz.qpic.cn/mmbiz_png/WUrZckMPh54ibk9Dxib1ZNwvvdnEWbHsIw39VibH175nzicsjnImlVDttGjoUfXybibibvrs7JTTSp7ckdtwq8d9DwQg/640?wx_fmt=png)</figure>
+![image](https://user-images.githubusercontent.com/19926113/110900228-670bc380-833d-11eb-9373-c3e5d8312f04.png)
+
 
 出现这个界面的很多情况下，都是遇到了中间人攻击的现象，需要对安全证书进行及时地监测。而且大名鼎鼎的 github 网站，也曾遭遇过中间人攻击：
 
